@@ -1,5 +1,6 @@
 package com.lottus.tech.processo_seletico_lottus_tech.web.dto.product;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +13,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ProductCreateDTO {
+
+    @NotBlank
     private String name;
+    @NotBlank
     private String code;
+    @NotBlank
     private String description;
+    @NotBlank
     private Double price;
 
     public String getName() {

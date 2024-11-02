@@ -18,6 +18,7 @@ import com.lottus.tech.processo_seletico_lottus_tech.web.dto.mapper.ProductMappe
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.product.ProductCreateDTO;
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.product.ProductResponseDTO;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
@@ -30,7 +31,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductCreateDTO productCreateDTO) {
+    public ResponseEntity<ProductResponseDTO> create(@Valid @RequestBody ProductCreateDTO productCreateDTO) {
         Product productCreate = productService.create(ProductMapper.toProduct(productCreateDTO));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(productCreate));
