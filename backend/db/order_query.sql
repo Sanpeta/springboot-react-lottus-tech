@@ -1,4 +1,4 @@
-INSERT INTO orders (code, date, name_client, quantity_total_itens, value_total, product_id) 
+INSERT INTO orders (code, date, client_name, total_items, total_value) 
 VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING *;
 
@@ -11,10 +11,9 @@ UPDATE orders
 SET
     code = $2,
     date = $3,
-    name_client = $4,
-    quantity_total_itens = $5,
-    value_total = $6,
-    product_id = $7
+    client_name = $4,
+    total_items = $5,
+    total_value = $6,
 WHERE id = $1
 RETURNING *;
 

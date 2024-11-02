@@ -10,9 +10,9 @@ CREATE IF NOT EXISTS TABLE orders (
     id SERIAL PRIMARY KEY,
     code VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    name_client VARCHAR(255) NOT NULL,
-    quantity_total_itens INT NOT NULL,
-    value_total DECIMAL(10, 2) NOT NULL
+    client_name VARCHAR(255) NOT NULL,
+    total_items INT NOT NULL,
+    total_value DECIMAL(10, 2) NOT NULL
 );
 
 CREATE IF NOT EXISTS TABLE products_orders (
