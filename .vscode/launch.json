@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ProcessoSeleticoLottusTechApplication<processo_seletico_lottus_tech>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.lottus.tech.processo_seletico_lottus_tech.ProcessoSeleticoLottusTechApplication",
+      "projectName": "processo_seletico_lottus_tech",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
