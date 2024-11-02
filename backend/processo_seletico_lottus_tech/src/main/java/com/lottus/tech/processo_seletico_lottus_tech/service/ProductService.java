@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lottus.tech.processo_seletico_lottus_tech.entity.Product;
 import com.lottus.tech.processo_seletico_lottus_tech.repository.ProductRepository;
+import com.lottus.tech.processo_seletico_lottus_tech.web.dto.exception.EntityNotFoundExceptionCustom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Product getProductByID(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundExceptionCustom(String.format("Product with id %d not found", id)));
     }
 
     @Transactional(readOnly = true)
