@@ -43,4 +43,13 @@ public class ProductService {
         
         return null;        
     }
+
+    @Transactional
+    public Void deleteProductByID(Long id) {
+        Product productToDelete = getProductByID(id);
+
+        productRepository.delete(productToDelete);
+        
+        return null;
+    }
 }

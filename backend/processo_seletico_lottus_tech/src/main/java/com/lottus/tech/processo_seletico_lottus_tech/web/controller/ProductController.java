@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,6 +82,17 @@ public class ProductController {
     @PatchMapping("/{id}")
     public ResponseEntity<Void> patchProductByID(@PathVariable Long id, @RequestBody Product product) {
         productService.updateProductByID(id, product);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Deletar produto por ID", description = "Deleta um produto pelo ID", responses = {
+        @ApiResponse(responseCode = "204", description = "Produto deletado com sucesso", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProductByID(@PathVariable Long id) {
+        productService.deleteProductByID(id);
 
         return ResponseEntity.noContent().build();
     }
