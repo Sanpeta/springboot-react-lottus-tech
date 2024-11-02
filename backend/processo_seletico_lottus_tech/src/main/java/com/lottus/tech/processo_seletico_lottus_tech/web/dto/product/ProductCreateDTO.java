@@ -1,5 +1,7 @@
 package com.lottus.tech.processo_seletico_lottus_tech.web.dto.product;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +22,7 @@ public class ProductCreateDTO {
     private String code;
     @NotBlank
     private String description;
-    @NotBlank
+    @NumberFormat
     private Double price;
 
     public String getName() {
