@@ -1,4 +1,4 @@
-package com.lottus.tech.processo_seletico_lottus_tech.web.dto;
+package com.lottus.tech.processo_seletico_lottus_tech.web.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
