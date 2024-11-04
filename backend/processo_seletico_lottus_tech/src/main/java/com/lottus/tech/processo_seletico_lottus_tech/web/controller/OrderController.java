@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lottus.tech.processo_seletico_lottus_tech.entity.Order;
+import com.lottus.tech.processo_seletico_lottus_tech.entity.OrderProduct;
+import com.lottus.tech.processo_seletico_lottus_tech.entity.Product;
+import com.lottus.tech.processo_seletico_lottus_tech.service.OrderProductService;
 import com.lottus.tech.processo_seletico_lottus_tech.service.OrderService;
+import com.lottus.tech.processo_seletico_lottus_tech.service.ProductService;
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.mapper.OrderMapper;
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.order.OrderCreateDTO;
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.order.OrderResponseDTO;
@@ -31,9 +36,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("api/v1/orders")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class OrderController {
 
     private final OrderService orderService;
+    private final ProductService productService;
+    private final OrderProductService orderProductService;
 
     @Operation(summary = "Criar um pedido", description = "Cria um novo pedido", responses = {
         @ApiResponse(responseCode = "201", description = "Pedido criado com sucesso", content = {
@@ -43,7 +51,29 @@ public class OrderController {
     })
     @PostMapping
     public ResponseEntity<OrderResponseDTO> create(@Valid @RequestBody OrderCreateDTO orderCreateDTO) {
+
+        Product product = productService.getProductByCode(orderCreateDTO.getCode());
+
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        orderCreateDTO.setTotalValue(product.getPrice() * (orderCreateDTO.getTotalItems() != null ? orderCreateDTO.getTotalItems() : 0));
+
         Order orderCreate = orderService.create(OrderMapper.toOrder(orderCreateDTO));
+
+        if (orderCreate == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        OrderProduct orderProduct = new OrderProduct();
+
+        orderProduct.setOrderId(orderCreate.getId());
+        orderProduct.setProductId(product.getId());
+        orderProduct.setQuantity(orderCreateDTO.getTotalItems());
+        orderProduct.setTotalProductValue(orderCreateDTO.getTotalValue());
+
+        orderProductService.addOrderProduct(orderProduct);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(OrderMapper.toDTO(orderCreate));
     }
