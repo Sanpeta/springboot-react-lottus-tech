@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lottus.tech.processo_seletico_lottus_tech.entity.Order;
+import com.lottus.tech.processo_seletico_lottus_tech.repository.OrderProductRepository;
 import com.lottus.tech.processo_seletico_lottus_tech.repository.OrderRepository;
 import com.lottus.tech.processo_seletico_lottus_tech.web.dto.exception.EntityNotFoundExceptionCustom;
 
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderProductRepository orderProductsRepository;
 
     @Transactional
     public Order create(Order order) {
@@ -47,6 +49,8 @@ public class OrderService {
 
     @Transactional
     public Void deleteOrderByID(Long id) {
+        orderProductsRepository.deleteByOrderId(id);
+
         orderRepository.deleteById(id);
 
         return null;
