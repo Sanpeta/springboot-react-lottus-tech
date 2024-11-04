@@ -32,6 +32,13 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Product getProductByCode(String code) {
+        return productRepository.findByCode(code)
+        .orElseThrow(() -> new RuntimeException("Produto não encontrado com o código: " + code));
+
+    }
+
     @Transactional
     public Void updateProductByID(Long id, Product product) {
         Product productToUpdate = getProductByID(id);
